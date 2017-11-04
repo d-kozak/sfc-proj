@@ -6,6 +6,7 @@ import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
 import io.dkozak.sfc.proj.editchartview.EditchartView;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
+import io.dkozak.sfc.proj.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import java.util.ResourceBundle;
 
 public class AppPresenter implements Initializable, EventBusListener {
 
+    private Logger logger = Logger.logger(this.getClass());
 
     @FXML
     private GridPane gridPane;
@@ -70,21 +72,6 @@ public class AppPresenter implements Initializable, EventBusListener {
 
     }
 
-    @FXML
-    void showUnion(ActionEvent event) {
-
-    }
-
-    @FXML
-    void showIntersection(ActionEvent event) {
-
-    }
-
-    @FXML
-    void showComplement(ActionEvent event) {
-
-    }
-
     @Override
     public void onMessage(String messageID, Object content) {
         if ("info".equals(messageID)) {
@@ -94,6 +81,12 @@ public class AppPresenter implements Initializable, EventBusListener {
             infoText.setText((String) content);
             infoText.setFill(Color.RED);
         } else
-            System.err.println("Unknown message " + messageID);
+            logger.log("Unknown message " + messageID);
+    }
+
+    public void clearAll(ActionEvent event) {
+        // I get a copy as well, se the cleaning is done in onMessage
+        eventBus.broadcast("clear");
+        eventBus.unicast("appView", "info", "All data cleared");
     }
 }

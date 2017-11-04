@@ -1,98 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.dkozak.sfc.proj.editchartview.EditchartPresenter">
-    <tabs>
-        <Tab text="Gausian">
-            <content>
-                <GridPane layoutX="38.0" layoutY="51.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mi"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigma" GridPane.rowIndex="1"/>
-                        <TextField fx:id="gausianMi" GridPane.columnIndex="1"/>
-                        <TextField fx:id="gausianSigma" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <Button fx:id="gausian" mnemonicParsing="false" onAction="#gausianReplace" text="Replace"
-                                GridPane.rowIndex="2"/>
-                        <Button mnemonicParsing="false" onAction="#gausianAppend" text="Append" GridPane.columnIndex="1"
-                                GridPane.rowIndex="2"/>
-                    </children>
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
-                </GridPane>
-            </content>
-        </Tab>
-        <Tab text="Triangle">
-            <content>
-                <GridPane>
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
-                        <Button fx:id="triangleBtn" mnemonicParsing="false" onAction="#triangleReplace" text="Replace"
-                                GridPane.rowIndex="3"/>
-                        <TextField fx:id="triangleA" GridPane.columnIndex="1"/>
-                        <TextField fx:id="triangleB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <TextField fx:id="triangleC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <Button mnemonicParsing="false" onAction="#TriangleAppend" text="Append"
-                                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                    </children>
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
-                </GridPane>
-            </content>
-        </Tab>
-        <Tab text="Trapezoid">
-            <content>
-                <GridPane>
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
-                        <Button fx:id="trapezoidBtn" mnemonicParsing="false" onAction="#trapezoidReplace" text="Replace"
-                                GridPane.rowIndex="4"/>
-                        <TextField fx:id="trapezoidA" GridPane.columnIndex="1"/>
-                        <TextField fx:id="trapezoidB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <TextField fx:id="trapezoidC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <TextField fx:id="trapezoidD" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="3"/>
-                        <Button mnemonicParsing="false" onAction="#trapezoidAppend" text="Apppend"
-                                GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                    </children>
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
-                </GridPane>
-            </content>
-        </Tab>
-    </tabs>
-    <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-    </padding>
-</TabPane>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.dkozak.sfc.proj.editchartview.EditchartPresenter">
+    <children>
+        <HBox>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name: ">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Text>
+                <TextField fx:id="nameField"/>
+            </children>
+        </HBox>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Gausian">
+                    <content>
+                        <GridPane layoutX="38.0" layoutY="51.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mi"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigma" GridPane.rowIndex="1"/>
+                                <TextField fx:id="gaussianMi" GridPane.columnIndex="1"/>
+                                <TextField fx:id="gaussianSigma" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <Button fx:id="gausian" mnemonicParsing="false" onAction="#gaussianReplace"
+                                        text="Replace" GridPane.rowIndex="2"/>
+                                <Button mnemonicParsing="false" onAction="#gaussianAppend" text="Append"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Triangle">
+                    <content>
+                        <GridPane>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
+                                <Button fx:id="triangleBtn" mnemonicParsing="false" onAction="#triangleReplace"
+                                        text="Replace" GridPane.rowIndex="3"/>
+                                <TextField fx:id="triangleA" GridPane.columnIndex="1"/>
+                                <TextField fx:id="triangleB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="triangleC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <Button mnemonicParsing="false" onAction="#TriangleAppend" text="Append"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Trapezoid">
+                    <content>
+                        <GridPane>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
+                                <Button fx:id="trapezoidBtn" mnemonicParsing="false" onAction="#trapezoidReplace"
+                                        text="Replace" GridPane.rowIndex="4"/>
+                                <TextField fx:id="trapezoidA" GridPane.columnIndex="1"/>
+                                <TextField fx:id="trapezoidB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="trapezoidC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <TextField fx:id="trapezoidD" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="3"/>
+                                <Button mnemonicParsing="false" onAction="#trapezoidAppend" text="Apppend"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+            </tabs>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </TabPane>
+    </children>
+</VBox>

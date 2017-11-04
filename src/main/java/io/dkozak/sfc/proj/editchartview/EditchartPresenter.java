@@ -5,6 +5,7 @@ import io.dkozak.sfc.proj.services.FuzzySetService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.utils.DataFunction;
+import io.dkozak.sfc.proj.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class EditchartPresenter implements Initializable, EventBusListener {
 
+    private Logger logger = Logger.logger(this.getClass());
+
     @FXML
     private TextField triangleC;
 
@@ -28,7 +31,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     private TextField triangleA;
 
     @FXML
-    private TextField gausianSigma;
+    private TextField gaussianSigma;
 
     @FXML
     private TextField trapezoidA;
@@ -41,10 +44,13 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     private TextField trapezoidB;
 
     @FXML
-    private TextField gausianMi;
+    private TextField gaussianMi;
 
     @FXML
     private TextField trapezoidD;
+
+    @FXML
+    private TextField nameField;
 
     private LineChart<Number, Number> controlledChart;
 
@@ -60,30 +66,39 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     }
 
     @FXML
-    public void gausianReplace(ActionEvent event) {
-        renderGausian(true);
+    public void gaussianReplace(ActionEvent event) {
+        renderGaussian(true);
     }
 
     @FXML
-    public void gausianAppend(ActionEvent event) {
-        renderGausian(false);
+    public void gaussianAppend(ActionEvent event) {
+        renderGaussian(false);
     }
 
-    private void renderGausian(boolean clearViewBefore) {
+    private void renderGaussian(boolean clearViewBefore) {
         try {
-            double mi = Double.parseDouble(gausianMi.getText());
-            double sigma = Double.parseDouble(gausianSigma.getText());
+            String name = getFuzzySetName();
+            if (name.isEmpty())
+                return;
+
+            double mi = Double.parseDouble(gaussianMi.getText());
+            double sigma = Double.parseDouble(gaussianSigma.getText());
 
             DataFunction gaussian = DataFunction.gaussian(mi, sigma);
-            if (clearViewBefore)
-                controlledChart.getData()
-                               .clear();
-            gaussian.visualizeData(controlledChart, String.format("Gausian(%.2f,%.2f)", mi, sigma));
-            eventBus.unicast("appView", "info", "Gausian graph plotted");
-            fuzzySetService.addSet(new FuzzySet(gaussian));
+            finishRendering(name, gaussian, clearViewBefore);
+
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }
+    }
+
+    private String getFuzzySetName() {
+        String name = nameField.getText();
+        if (name.isEmpty()) {
+            eventBus.unicast("appView", "error", "Please fill in the name of the set");
+            return "";
+        }
+        return name;
     }
 
 
@@ -103,17 +118,17 @@ public class EditchartPresenter implements Initializable, EventBusListener {
 
     private void renderTriangle(boolean clearViewBefore) {
         try {
+            String name = getFuzzySetName();
+            if (name.isEmpty())
+                return;
+
             double a = Double.parseDouble(triangleA.getText());
             double b = Double.parseDouble(triangleB.getText());
             double c = Double.parseDouble(triangleC.getText());
 
             DataFunction triangle = DataFunction.triangle(a, b, c);
-            if (clearViewBefore)
-                controlledChart.getData()
-                               .clear();
-            triangle.visualizeData(controlledChart, String.format("Triangle(%.2f,%.2f,%.2f)", a, b, c));
-            eventBus.unicast("appView", "info", "Triangle graph plotted");
-            fuzzySetService.addSet(new FuzzySet(triangle));
+            finishRendering(name, triangle, clearViewBefore);
+
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }
@@ -130,30 +145,39 @@ public class EditchartPresenter implements Initializable, EventBusListener {
 
     private void renderTrapezoid(boolean clearViewBefore) {
         try {
+            String name = getFuzzySetName();
+            if (name.isEmpty())
+                return;
+
             double a = Double.parseDouble(trapezoidA.getText());
             double b = Double.parseDouble(trapezoidB.getText());
             double c = Double.parseDouble(trapezoidC.getText());
             double d = Double.parseDouble(trapezoidD.getText());
 
             DataFunction trapezoid = DataFunction.trapezoid(a, b, c, d);
-            if (clearViewBefore)
-                controlledChart.getData()
-                               .clear();
+            finishRendering(name, trapezoid, clearViewBefore);
 
-            fuzzySetService.addSet(new FuzzySet(trapezoid));
-            trapezoid.visualizeData(controlledChart, String.format("Trapezoid(%.2f,%.2f,%.2f,%.2f)", a, b, c, d));
-            eventBus.unicast("appView", "info", "Trapezoid graph plotted");
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }
     }
 
-    public LineChart<Number, Number> getControlledChart() {
-        return controlledChart;
-    }
-
     public void setControlledChart(LineChart<Number, Number> controlledChart) {
         this.controlledChart = controlledChart;
+    }
+
+    private void finishRendering(String name, DataFunction function, boolean clearViewBefore) {
+        if (clearViewBefore)
+            controlledChart.getData()
+                           .clear();
+
+        FuzzySet fuzzySet = new FuzzySet(name, function);
+        fuzzySetService.addSet(fuzzySet);
+        fuzzySet.visualize(controlledChart);
+
+        eventBus.broadcast("newSet", fuzzySet);
+        eventBus.unicast("appView", "info", name + " plotted");
+
     }
 
     @Override
@@ -161,8 +185,23 @@ public class EditchartPresenter implements Initializable, EventBusListener {
         if ("clear".equals(messageID)) {
             controlledChart.getData()
                            .clear();
+            nameField.clear();
+
+            trapezoidA.clear();
+            trapezoidB.clear();
+            trapezoidC.clear();
+            trapezoidD.clear();
+
+            triangleA.clear();
+            triangleB.clear();
+            triangleC.clear();
+
+            gaussianMi.clear();
+            gaussianSigma.clear();
+
+
         } else {
-            System.err.println("Unknown message " + messageID);
+            logger.log("Unknown message " + messageID);
         }
     }
 }

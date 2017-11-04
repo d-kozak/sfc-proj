@@ -6,9 +6,13 @@ import javafx.scene.chart.LineChart;
 import java.util.function.Function;
 
 public class FuzzySet {
-    private DataFunction memberFunction;
+    public static final FuzzySet NULL = new FuzzySet("NULL", new DataFunction(Function.identity()));
 
-    public FuzzySet(DataFunction memberFunction) {
+    private final DataFunction memberFunction;
+    private final String name;
+
+    public FuzzySet(String name, DataFunction memberFunction) {
+        this.name = name;
         this.memberFunction = memberFunction;
     }
 
@@ -24,7 +28,7 @@ public class FuzzySet {
             return Math.max(left, right);
         };
 
-        return new FuzzySet(new DataFunction(union));
+        return new FuzzySet("Union of " + this.name + " and " + oth.name, new DataFunction(union));
     }
 
     public FuzzySet intersect(FuzzySet oth) {
@@ -39,7 +43,7 @@ public class FuzzySet {
             return Math.min(left, right);
         };
 
-        return new FuzzySet(new DataFunction(join));
+        return new FuzzySet("Intersection of " + this.name + " and " + oth.name, new DataFunction(join));
     }
 
     public FuzzySet complement() {
@@ -47,10 +51,29 @@ public class FuzzySet {
         Function<Number, Number> complement = input -> 1 - current.apply(input)
                                                                   .doubleValue();
 
-        return new FuzzySet(new DataFunction(complement));
+        return new FuzzySet("Complement of " + name, new DataFunction(complement));
     }
 
-    public void visualize(LineChart<Number, Number> chart, String name) {
-        memberFunction.visualizeData(chart, name);
+    public void visualize(LineChart<Number, Number> chart) {
+        memberFunction.visualizeData(chart, this.name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FuzzySet fuzzySet = (FuzzySet) o;
+
+        return name.equals(fuzzySet.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    public String getName() {
+        return name;
     }
 }

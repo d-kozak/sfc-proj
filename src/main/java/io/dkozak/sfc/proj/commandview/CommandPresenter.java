@@ -4,19 +4,28 @@ import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.services.FuzzySetService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
+import io.dkozak.sfc.proj.utils.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.ChoiceBox;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.BiFunction;
 
 public class CommandPresenter implements Initializable, EventBusListener {
+
+    private Logger logger = Logger.logger(this.getClass());
+
+    @FXML
+    private ChoiceBox<String> set1ChoiceBox;
+
+    @FXML
+    private ChoiceBox<String> set2ChoiceBox;
 
     @Inject
     private FuzzySetService fuzzySetService;
@@ -28,6 +37,23 @@ public class CommandPresenter implements Initializable, EventBusListener {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        set1ChoiceBox.getSelectionModel()
+                     .selectedIndexProperty()
+                     .addListener((observable, oldValue, newValue) -> {
+                         String name = set1ChoiceBox.getItems()
+                                                    .get(newValue.intValue());
+                         eventBus.unicast("appView", "info", "Set 1 selected: " + name);
+                     });
+        set2ChoiceBox.getSelectionModel()
+                     .selectedIndexProperty()
+                     .addListener((observable, oldValue, newValue) -> {
+                         String name = set2ChoiceBox.getItems()
+                                                    .get(newValue.intValue());
+                         eventBus.unicast("appView", "info", "Set 2 selected: " + name);
+                     });
+        set1ChoiceBox.setItems(FXCollections.observableArrayList());
+        set2ChoiceBox.setItems(FXCollections.observableArrayList());
+
         eventBus.register("commandView", this);
     }
 
@@ -37,64 +63,53 @@ public class CommandPresenter implements Initializable, EventBusListener {
 
     @FXML
     void showUnion(ActionEvent event) {
-        List<FuzzySet> sets = prepareFuzzySetList();
-        if (sets.isEmpty())
-            return;
+        performOver2Sets(FuzzySet::union);
+    }
 
-        FuzzySet buffer = sets.get(0);
-        sets.remove(buffer);
-        for (FuzzySet set : sets) {
-            buffer = buffer.union(set);
+    private void performOver2Sets(BiFunction<FuzzySet, FuzzySet, FuzzySet> operation) {
+        FuzzySet set1 = getFuzzySetFrom(set1ChoiceBox);
+        FuzzySet set2 = getFuzzySetFrom(set2ChoiceBox);
+        if (FuzzySet.NULL.equals(set1)) {
+            eventBus.unicast("appView", "error", "Please specify set 1");
+            return;
+        } else if (FuzzySet.NULL.equals(set2)) {
+            eventBus.unicast("appView", "error", "Please specify set 2");
+            return;
         }
+
+        FuzzySet result = operation.apply(set1, set2);
 
         chart.getData()
              .clear();
-        buffer.visualize(chart, "Union");
+        result.visualize(chart);
+
+        eventBus.unicast("appView", "info", result.getName() + " plotted");
     }
 
     @FXML
-    void showIntersection(ActionEvent event) {
-        List<FuzzySet> sets = prepareFuzzySetList();
-        if (sets.isEmpty()) return;
-
-        FuzzySet buffer = sets.get(0);
-        sets.remove(buffer);
-        for (FuzzySet set : sets) {
-            buffer = buffer.intersect(set);
-        }
-
-        chart.getData()
-             .clear();
-        buffer.visualize(chart, "Intersection");
+    public void showIntersection(ActionEvent event) {
+        performOver2Sets(FuzzySet::intersect);
     }
 
     @FXML
     void showComplement(ActionEvent event) {
-        List<FuzzySet> fuzzySets = fuzzySetService.getSets();
-        if (fuzzySets.size() < 1) {
-            eventBus.unicast("appView", "error", "At least one set needed");
+
+        FuzzySet set1 = getFuzzySetFrom(set1ChoiceBox);
+        if (FuzzySet.NULL.equals(set1)) {
+            eventBus.unicast("appView", "error", "Please specify set 1");
             return;
         }
-
-        FuzzySet complement = fuzzySets.get(0)
-                                       .complement();
+        FuzzySet complement = set1.complement();
 
         chart.getData()
              .clear();
-        complement.visualize(chart, "Complement");
-
+        complement.visualize(chart);
+        eventBus.unicast("appView", "info", complement.getName() + " plotted");
     }
 
-
-    private List<FuzzySet> prepareFuzzySetList() {
-        List<FuzzySet> result = new ArrayList<>();
-        List<FuzzySet> fromService = fuzzySetService.getSets();
-        if (fromService.size() < 2) {
-            eventBus.unicast("appView", "error", "At least two sets needed");
-            return Collections.emptyList();
-        }
-        result.addAll(fromService);
-        return result;
+    private FuzzySet getFuzzySetFrom(ChoiceBox<String> choiceBox) {
+        String name = choiceBox.getValue();
+        return fuzzySetService.getSet(name);
     }
 
     @Override
@@ -102,15 +117,21 @@ public class CommandPresenter implements Initializable, EventBusListener {
         if ("clear".equals(messageID)) {
             chart.getData()
                  .clear();
-        } else {
-            System.err.println("Unknown message " + messageID);
-        }
-    }
+            set1ChoiceBox.getItems()
+                         .clear();
+            set2ChoiceBox.getItems()
+                         .clear();
+        } else if ("newSet".equals(messageID)) {
+            FuzzySet newSet = (FuzzySet) content;
+            String name = newSet.getName();
+            set1ChoiceBox.getItems()
+                         .add(name);
+            set2ChoiceBox.getItems()
+                         .add(name);
 
-    public void clearAll(ActionEvent event) {
-        // I get a copy as well, se the cleaning is done in onMessage
-        eventBus.broadcast("clear");
-        eventBus.unicast("appView", "info", "All data cleared");
+        } else {
+            logger.log("Unknown message " + messageID);
+        }
     }
 }
 
