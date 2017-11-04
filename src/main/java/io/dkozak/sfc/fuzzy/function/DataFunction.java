@@ -6,12 +6,12 @@ import javafx.scene.chart.XYChart;
 import java.util.function.Function;
 
 public class DataFunction {
-    public static DataFunction linear(int a, int b, int c, int d) {
-        int k = (d - b) / (c - a);
-        return new DataFunction(x -> x.intValue() * k);
+    public static DataFunction linear(double a, double b, double c, double d) {
+        double k = (d - b) / (c - a);
+        return new DataFunction(x -> x.doubleValue() * k);
     }
 
-    public static DataFunction constant(int a) {
+    public static DataFunction constant(double a) {
         return new DataFunction(x -> a);
     }
 
