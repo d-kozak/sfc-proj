@@ -1,4 +1,4 @@
-package io.dkozak.sfc.fuzzy.utils.eventbus;
+package io.dkozak.sfc.proj.services.eventbus;
 
 import java.util.HashMap;
 import java.util.Map;

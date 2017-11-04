@@ -1,6 +1,6 @@
-package io.dkozak.sfc.fuzzy;
+package io.dkozak.sfc.proj;
 
-import io.dkozak.sfc.fuzzy.appview.AppView;
+import io.dkozak.sfc.proj.appview.AppView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -1,7 +1,7 @@
-package io.dkozak.sfc.fuzzy.editchartview;
+package io.dkozak.sfc.proj.editchartview;
 
-import io.dkozak.sfc.fuzzy.function.DataFunction;
-import io.dkozak.sfc.fuzzy.utils.eventbus.EventBus;
+import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import io.dkozak.sfc.proj.utils.DataFunction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -64,7 +64,7 @@ public class EditchartPresenter {
             if (clearViewBefore)
                 controlledChart.getData()
                                .clear();
-            gausian.visualizeData(controlledChart, String.format("Gausian(%f,%f)", mi, sigma));
+            gausian.visualizeData(controlledChart, String.format("Gausian(%.2f,%.2f)", mi, sigma));
             eventBus.unicast("appView", "info", "Gausian graph ploted");
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
@@ -96,7 +96,7 @@ public class EditchartPresenter {
             if (clearViewBefore)
                 controlledChart.getData()
                                .clear();
-            triangle.visualizeData(controlledChart, String.format("Triangle(%f,%f,%f)", a, b, c));
+            triangle.visualizeData(controlledChart, String.format("Triangle(%.2f,%.2f,%.2f)", a, b, c));
             eventBus.unicast("appView", "info", "Triangle graph ploted");
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
@@ -123,7 +123,7 @@ public class EditchartPresenter {
             if (clearViewBefore)
                 controlledChart.getData()
                                .clear();
-            trapezoid.visualizeData(controlledChart, String.format("Trapezoid(%f,%f,%f,%f)", a, b, c, d));
+            trapezoid.visualizeData(controlledChart, String.format("Trapezoid(%.2f,%.2f,%.2f,%.2f)", a, b, c, d));
             eventBus.unicast("appView", "info", "Trapezoid graph ploted");
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();

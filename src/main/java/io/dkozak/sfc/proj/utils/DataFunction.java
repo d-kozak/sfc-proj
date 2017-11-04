@@ -1,4 +1,4 @@
-package io.dkozak.sfc.fuzzy.function;
+package io.dkozak.sfc.proj.utils;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;

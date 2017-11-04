@@ -1,4 +1,4 @@
-package io.dkozak.sfc.fuzzy.editchartview;
+package io.dkozak.sfc.proj.editchartview;
 
 import com.airhacks.afterburner.views.FXMLView;
 

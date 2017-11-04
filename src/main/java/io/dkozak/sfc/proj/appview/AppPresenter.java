@@ -1,10 +1,10 @@
-package io.dkozak.sfc.fuzzy.appview;
+package io.dkozak.sfc.proj.appview;
 
-import io.dkozak.sfc.fuzzy.editchartview.EditchartPresenter;
-import io.dkozak.sfc.fuzzy.editchartview.EditchartView;
-import io.dkozak.sfc.fuzzy.function.DataFunction;
-import io.dkozak.sfc.fuzzy.utils.eventbus.EventBus;
-import io.dkozak.sfc.fuzzy.utils.eventbus.EventBusListener;
+import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
+import io.dkozak.sfc.proj.editchartview.EditchartView;
+import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
+import io.dkozak.sfc.proj.utils.DataFunction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;

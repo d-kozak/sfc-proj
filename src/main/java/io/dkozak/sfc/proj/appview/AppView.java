@@ -1,4 +1,4 @@
-package io.dkozak.sfc.fuzzy.appview;
+package io.dkozak.sfc.proj.appview;
 
 import com.airhacks.afterburner.views.FXMLView;
 
