@@ -3,15 +3,20 @@ package io.dkozak.sfc.proj.editchartview;
 import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.services.FuzzySetService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.utils.DataFunction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
+import java.net.URL;
+import java.util.Random;
+import java.util.ResourceBundle;
 
-public class EditchartPresenter {
+public class EditchartPresenter implements Initializable, EventBusListener {
 
     @FXML
     private TextField triangleC;
@@ -49,6 +54,10 @@ public class EditchartPresenter {
     @Inject
     private FuzzySetService fuzzySetService;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        eventBus.register("editChartView" + (new Random().nextInt()), this);
+    }
 
     @FXML
     public void gausianReplace(ActionEvent event) {
@@ -145,6 +154,16 @@ public class EditchartPresenter {
 
     public void setControlledChart(LineChart<Number, Number> controlledChart) {
         this.controlledChart = controlledChart;
+    }
+
+    @Override
+    public void onMessage(String messageID, Object content) {
+        if ("clear".equals(messageID)) {
+            controlledChart.getData()
+                           .clear();
+        } else {
+            System.err.println("Unknown message " + messageID);
+        }
     }
 }
 

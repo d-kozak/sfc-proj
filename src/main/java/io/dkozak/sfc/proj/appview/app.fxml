@@ -45,7 +45,7 @@
                         <NumberAxis side="BOTTOM"/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis side="LEFT"/>
+                        <NumberAxis side="LEFT" upperBound="1.0"/>
                     </yAxis>
                 </LineChart>
                 <LineChart fx:id="middleChart" createSymbols="false" GridPane.columnIndex="1">
@@ -53,7 +53,7 @@
                         <NumberAxis side="BOTTOM"/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis side="LEFT"/>
+                        <NumberAxis side="LEFT" upperBound="1.0"/>
                     </yAxis>
                 </LineChart>
                 <LineChart fx:id="rightChart" createSymbols="false" GridPane.columnIndex="2">
@@ -61,7 +61,7 @@
                         <NumberAxis side="BOTTOM"/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis side="LEFT"/>
+                        <NumberAxis side="LEFT" upperBound="1.0"/>
                     </yAxis>
                 </LineChart>
             </children>
