@@ -1,5 +1,7 @@
 package io.dkozak.sfc.proj.editchartview;
 
+import io.dkozak.sfc.proj.fuzzy.FuzzySet;
+import io.dkozak.sfc.proj.services.FuzzySetService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.utils.DataFunction;
 import javafx.event.ActionEvent;
@@ -44,6 +46,9 @@ public class EditchartPresenter {
     @Inject
     private EventBus eventBus;
 
+    @Inject
+    private FuzzySetService fuzzySetService;
+
 
     @FXML
     public void gausianReplace(ActionEvent event) {
@@ -60,12 +65,13 @@ public class EditchartPresenter {
             double mi = Double.parseDouble(gausianMi.getText());
             double sigma = Double.parseDouble(gausianSigma.getText());
 
-            DataFunction gausian = DataFunction.gausian(mi, sigma);
+            DataFunction gaussian = DataFunction.gaussian(mi, sigma);
             if (clearViewBefore)
                 controlledChart.getData()
                                .clear();
-            gausian.visualizeData(controlledChart, String.format("Gausian(%.2f,%.2f)", mi, sigma));
-            eventBus.unicast("appView", "info", "Gausian graph ploted");
+            gaussian.visualizeData(controlledChart, String.format("Gausian(%.2f,%.2f)", mi, sigma));
+            eventBus.unicast("appView", "info", "Gausian graph plotted");
+            fuzzySetService.addSet(new FuzzySet(gaussian));
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }
@@ -97,7 +103,8 @@ public class EditchartPresenter {
                 controlledChart.getData()
                                .clear();
             triangle.visualizeData(controlledChart, String.format("Triangle(%.2f,%.2f,%.2f)", a, b, c));
-            eventBus.unicast("appView", "info", "Triangle graph ploted");
+            eventBus.unicast("appView", "info", "Triangle graph plotted");
+            fuzzySetService.addSet(new FuzzySet(triangle));
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }
@@ -123,8 +130,10 @@ public class EditchartPresenter {
             if (clearViewBefore)
                 controlledChart.getData()
                                .clear();
+
+            fuzzySetService.addSet(new FuzzySet(trapezoid));
             trapezoid.visualizeData(controlledChart, String.format("Trapezoid(%.2f,%.2f,%.2f,%.2f)", a, b, c, d));
-            eventBus.unicast("appView", "info", "Trapezoid graph ploted");
+            eventBus.unicast("appView", "info", "Trapezoid graph plotted");
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
         }

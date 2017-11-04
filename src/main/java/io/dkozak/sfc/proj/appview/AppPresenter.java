@@ -1,10 +1,12 @@
 package io.dkozak.sfc.proj.appview;
 
+import io.dkozak.sfc.proj.commandview.CommandPresenter;
+import io.dkozak.sfc.proj.commandview.CommandView;
 import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
 import io.dkozak.sfc.proj.editchartview.EditchartView;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
-import io.dkozak.sfc.proj.utils.DataFunction;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -40,15 +42,6 @@ public class AppPresenter implements Initializable, EventBusListener {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        DataFunction constant = DataFunction.constant(0.35);
-        DataFunction linear = DataFunction.trapezoid(30, 40, 50, 60);
-//        DataFunction linear2 = DataFunction.normalDistribution(50,0.2);
-        DataFunction linear2 = DataFunction.triangle(10, 30, 50);
-
-        constant.visualizeData(leftChart, "Constant");
-        linear.visualizeData(middleChart, "Linear 1");
-        linear2.visualizeData(rightChart, "Gausian");
-
         eventBus.register("appView", this);
 
 
@@ -67,15 +60,29 @@ public class AppPresenter implements Initializable, EventBusListener {
 
             gridPane.add(editchartView.getView(), 1, 1);
         }
-
         {
-            EditchartView editchartView = new EditchartView();
-            EditchartPresenter presenter = (EditchartPresenter) editchartView.getPresenter();
-            presenter.setControlledChart(rightChart);
+            CommandView commandView = new CommandView();
+            CommandPresenter commandPresenter = (CommandPresenter) commandView.getPresenter();
+            commandPresenter.setChart(rightChart);
 
-            gridPane.add(editchartView.getView(), 2, 1);
-
+            gridPane.add(commandView.getView(), 2, 1);
         }
+
+    }
+
+    @FXML
+    void showUnion(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showIntersection(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showComplement(ActionEvent event) {
+
     }
 
     @Override

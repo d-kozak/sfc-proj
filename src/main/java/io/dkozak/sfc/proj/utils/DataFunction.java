@@ -16,8 +16,8 @@ public class DataFunction {
     }
 
 
-    public static DataFunction gausian(double mi, double sigma) {
-        return new DataFunction(x -> Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / (double) sigma)));
+    public static DataFunction gaussian(double mi, double sigma) {
+        return new DataFunction(x -> Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / sigma)));
     }
 
     public static DataFunction normalDistribution(double mi, double sigma) {
@@ -51,6 +51,7 @@ public class DataFunction {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(name);
 
+
         for (int i = 0; i < 100; i++) {
             series.getData()
                   .add(new XYChart.Data<>(i, function.apply(i)));
@@ -58,5 +59,13 @@ public class DataFunction {
 
         lineChart.getData()
                  .add(series);
+    }
+
+    public Function<Number, Number> getFunction() {
+        return function;
+    }
+
+    public void setFunction(Function<Number, Number> function) {
+        this.function = function;
     }
 }
