@@ -1,39 +1,39 @@
-package io.dkozak.sfc.proj.utils;
+package io.dkozak.sfc.proj.fuzzy;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 
 import java.util.function.Function;
 
-public class DataFunction {
-    public static DataFunction linear(double a, double b, double c, double d) {
+public class MemberFunction {
+    public static MemberFunction linear(double a, double b, double c, double d) {
         double k = (d - b) / (c - a);
-        return new DataFunction(x -> x.doubleValue() * k);
+        return new MemberFunction(x -> x.doubleValue() * k);
     }
 
-    public static DataFunction constant(double a) {
-        return new DataFunction(x -> a);
+    public static MemberFunction constant(double a) {
+        return new MemberFunction(x -> a);
     }
 
 
-    public static DataFunction gaussian(double mi, double sigma) {
-        return new DataFunction(x -> Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / sigma)));
+    public static MemberFunction gaussian(double mi, double sigma) {
+        return new MemberFunction(x -> Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / sigma)));
     }
 
-    public static DataFunction normalDistribution(double mi, double sigma) {
-        return new DataFunction(x -> ((1.0 / (sigma * Math.sqrt(2 * Math.PI))) * (Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / (double) sigma)))));
+    public static MemberFunction normalDistribution(double mi, double sigma) {
+        return new MemberFunction(x -> ((1.0 / (sigma * Math.sqrt(2 * Math.PI))) * (Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / (double) sigma)))));
     }
 
-    public static DataFunction triangle(double a, double b, double c) {
-        return new DataFunction(input -> {
+    public static MemberFunction triangle(double a, double b, double c) {
+        return new MemberFunction(input -> {
             double x = input.doubleValue();
             double val = Math.min(((x - a) / (b - a)), ((c - x) / (c - b)));
             return val >= 0 ? val : 0;
         });
     }
 
-    public static DataFunction trapezoid(double a, double b, double c, double d) {
-        return new DataFunction(input -> {
+    public static MemberFunction trapezoid(double a, double b, double c, double d) {
+        return new MemberFunction(input -> {
             double x = input.doubleValue();
             double val = Math.min((x - a) / (b - a), (d - x) / (d - c));
             val = val <= 1 ? val : 1;
@@ -43,7 +43,7 @@ public class DataFunction {
 
     private Function<Number, Number> function;
 
-    public DataFunction(Function<Number, Number> function) {
+    public MemberFunction(Function<Number, Number> function) {
         this.function = function;
     }
 

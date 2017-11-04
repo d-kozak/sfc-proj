@@ -1,17 +1,16 @@
 package io.dkozak.sfc.proj.fuzzy;
 
-import io.dkozak.sfc.proj.utils.DataFunction;
 import javafx.scene.chart.LineChart;
 
 import java.util.function.Function;
 
 public class FuzzySet {
-    public static final FuzzySet NULL = new FuzzySet("NULL", new DataFunction(Function.identity()));
+    public static final FuzzySet NULL = new FuzzySet("NULL", new MemberFunction(Function.identity()));
 
-    private final DataFunction memberFunction;
+    private final MemberFunction memberFunction;
     private final String name;
 
-    public FuzzySet(String name, DataFunction memberFunction) {
+    public FuzzySet(String name, MemberFunction memberFunction) {
         this.name = name;
         this.memberFunction = memberFunction;
     }
@@ -28,7 +27,7 @@ public class FuzzySet {
             return Math.max(left, right);
         };
 
-        return new FuzzySet("Union of " + this.name + " and " + oth.name, new DataFunction(union));
+        return new FuzzySet("Union of " + this.name + " and " + oth.name, new MemberFunction(union));
     }
 
     public FuzzySet intersect(FuzzySet oth) {
@@ -43,7 +42,7 @@ public class FuzzySet {
             return Math.min(left, right);
         };
 
-        return new FuzzySet("Intersection of " + this.name + " and " + oth.name, new DataFunction(join));
+        return new FuzzySet("Intersection of " + this.name + " and " + oth.name, new MemberFunction(join));
     }
 
     public FuzzySet complement() {
@@ -51,7 +50,7 @@ public class FuzzySet {
         Function<Number, Number> complement = input -> 1 - current.apply(input)
                                                                   .doubleValue();
 
-        return new FuzzySet("Complement of " + name, new DataFunction(complement));
+        return new FuzzySet("Complement of " + name, new MemberFunction(complement));
     }
 
     public void visualize(LineChart<Number, Number> chart) {

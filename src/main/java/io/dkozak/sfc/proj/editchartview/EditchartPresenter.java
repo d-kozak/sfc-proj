@@ -1,10 +1,10 @@
 package io.dkozak.sfc.proj.editchartview;
 
 import io.dkozak.sfc.proj.fuzzy.FuzzySet;
+import io.dkozak.sfc.proj.fuzzy.MemberFunction;
 import io.dkozak.sfc.proj.services.FuzzySetService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
-import io.dkozak.sfc.proj.utils.DataFunction;
 import io.dkozak.sfc.proj.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,7 +84,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double mi = Double.parseDouble(gaussianMi.getText());
             double sigma = Double.parseDouble(gaussianSigma.getText());
 
-            DataFunction gaussian = DataFunction.gaussian(mi, sigma);
+            MemberFunction gaussian = MemberFunction.gaussian(mi, sigma);
             finishRendering(name, gaussian, clearViewBefore);
 
         } catch (NumberFormatException ex) {
@@ -126,7 +126,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double b = Double.parseDouble(triangleB.getText());
             double c = Double.parseDouble(triangleC.getText());
 
-            DataFunction triangle = DataFunction.triangle(a, b, c);
+            MemberFunction triangle = MemberFunction.triangle(a, b, c);
             finishRendering(name, triangle, clearViewBefore);
 
         } catch (NumberFormatException ex) {
@@ -154,7 +154,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double c = Double.parseDouble(trapezoidC.getText());
             double d = Double.parseDouble(trapezoidD.getText());
 
-            DataFunction trapezoid = DataFunction.trapezoid(a, b, c, d);
+            MemberFunction trapezoid = MemberFunction.trapezoid(a, b, c, d);
             finishRendering(name, trapezoid, clearViewBefore);
 
         } catch (NumberFormatException ex) {
@@ -166,7 +166,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
         this.controlledChart = controlledChart;
     }
 
-    private void finishRendering(String name, DataFunction function, boolean clearViewBefore) {
+    private void finishRendering(String name, MemberFunction function, boolean clearViewBefore) {
         if (clearViewBefore)
             controlledChart.getData()
                            .clear();
