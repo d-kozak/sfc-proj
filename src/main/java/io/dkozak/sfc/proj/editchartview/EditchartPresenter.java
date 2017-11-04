@@ -177,7 +177,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
 
         eventBus.broadcast("newSet", fuzzySet);
         eventBus.unicast("appView", "info", name + " plotted");
-
+        clearForm();
     }
 
     @Override
@@ -185,24 +185,28 @@ public class EditchartPresenter implements Initializable, EventBusListener {
         if ("clear".equals(messageID)) {
             controlledChart.getData()
                            .clear();
-            nameField.clear();
-
-            trapezoidA.clear();
-            trapezoidB.clear();
-            trapezoidC.clear();
-            trapezoidD.clear();
-
-            triangleA.clear();
-            triangleB.clear();
-            triangleC.clear();
-
-            gaussianMi.clear();
-            gaussianSigma.clear();
+            clearForm();
 
 
         } else {
             logger.log("Unknown message " + messageID);
         }
+    }
+
+    private void clearForm() {
+        nameField.clear();
+
+        trapezoidA.clear();
+        trapezoidB.clear();
+        trapezoidC.clear();
+        trapezoidD.clear();
+
+        triangleA.clear();
+        triangleB.clear();
+        triangleC.clear();
+
+        gaussianMi.clear();
+        gaussianSigma.clear();
     }
 }
 
