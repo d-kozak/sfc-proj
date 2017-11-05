@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import lombok.val;
 
 import javax.inject.Inject;
@@ -17,6 +19,9 @@ public class SettingsPresenter {
 
     @FXML
     private TextField graphMaximumX;
+
+    @FXML
+    private Text infoText;
 
     @Inject
     private SettingsService settingsService;
@@ -51,7 +56,8 @@ public class SettingsPresenter {
     }
 
     private void displayErrorMessage(String message) {
-        throw new RuntimeException("Not impl");
+        infoText.setFill(Color.RED);
+        infoText.setText(message);
     }
 
     private void closeWindow(ActionEvent event) {

@@ -51,5 +51,6 @@
                 </Button>
             </children>
         </HBox>
+        <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0"/>
     </children>
 </VBox>
