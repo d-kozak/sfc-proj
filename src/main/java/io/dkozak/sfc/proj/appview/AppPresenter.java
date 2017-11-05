@@ -4,6 +4,7 @@ import io.dkozak.sfc.proj.commandview.CommandPresenter;
 import io.dkozak.sfc.proj.commandview.CommandView;
 import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
 import io.dkozak.sfc.proj.editchartview.EditchartView;
+import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.settings.SettingsView;
@@ -13,14 +14,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.val;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class AppPresenter implements Initializable, EventBusListener {
@@ -48,11 +52,13 @@ public class AppPresenter implements Initializable, EventBusListener {
     @Inject
     private Stage mainStage;
 
+    @Inject
+    private SettingsService settingsService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         eventBus.register("appView", this);
-
+        applyCurrentSettings();
 
         {
             EditchartView editchartView = new EditchartView();
@@ -76,7 +82,6 @@ public class AppPresenter implements Initializable, EventBusListener {
 
             gridPane.add(commandView.getView(), 2, 1);
         }
-
     }
 
     @Override
@@ -87,8 +92,19 @@ public class AppPresenter implements Initializable, EventBusListener {
         } else if ("error".equals(messageID)) {
             infoText.setText((String) content);
             infoText.setFill(Color.RED);
+        } else if ("settingsUpdated".equals(messageID)) {
+            applyCurrentSettings();
         } else
             logger.log("Unknown message " + messageID);
+    }
+
+    private void applyCurrentSettings() {
+        for (val chart : Arrays.asList(leftChart, middleChart, rightChart)) {
+            val axis = (NumberAxis) chart.getXAxis();
+            axis.setAutoRanging(false);
+            axis.setLowerBound(settingsService.getGraphMinimumX());
+            axis.setUpperBound(settingsService.getGraphMaximumX());
+        }
     }
 
     public void clearAll(ActionEvent event) {
