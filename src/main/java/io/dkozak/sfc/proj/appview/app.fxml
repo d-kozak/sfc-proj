@@ -18,6 +18,7 @@
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#clearAll" text="Clear all"/>
+                        <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

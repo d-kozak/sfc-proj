@@ -6,14 +6,18 @@ import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
 import io.dkozak.sfc.proj.editchartview.EditchartView;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
+import io.dkozak.sfc.proj.settings.SettingsView;
 import io.dkozak.sfc.proj.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -40,6 +44,9 @@ public class AppPresenter implements Initializable, EventBusListener {
 
     @Inject
     private EventBus eventBus;
+
+    @Inject
+    private Stage mainStage;
 
 
     @Override
@@ -88,5 +95,20 @@ public class AppPresenter implements Initializable, EventBusListener {
         // I get a copy as well, se the cleaning is done in onMessage
         eventBus.broadcast("clear");
         eventBus.unicast("appView", "info", "All data cleared");
+    }
+
+    @FXML
+    public void openSettings(ActionEvent event) {
+        SettingsView settings = new SettingsView();
+        Stage stage = new Stage();
+        Scene scene = new Scene(settings.getView());
+        stage.setTitle("Settings");
+        stage.setScene(scene);
+
+        // make the dialog modal
+        stage.initOwner(this.mainStage.getOwner());
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+
     }
 }
