@@ -1,5 +1,7 @@
 package io.dkozak.sfc.proj.appview;
 
+import com.airhacks.afterburner.views.FXMLView;
+import io.dkozak.sfc.proj.aboutview.AboutView;
 import io.dkozak.sfc.proj.commandview.CommandPresenter;
 import io.dkozak.sfc.proj.commandview.CommandView;
 import io.dkozak.sfc.proj.editchartview.EditchartPresenter;
@@ -118,17 +120,19 @@ public class AppPresenter implements Initializable, EventBusListener {
 
     @FXML
     public void openSettings(ActionEvent event) {
-        SettingsView settings = new SettingsView();
+        openModalDialog("Settings", new SettingsView());
+    }
+
+    private void openModalDialog(String title, FXMLView fxmlView) {
         Stage stage = new Stage();
-        Scene scene = new Scene(settings.getView());
-        stage.setTitle("Settings");
+        Scene scene = new Scene(fxmlView.getView());
+        stage.setTitle(title);
         stage.setScene(scene);
 
         // make the dialog modal
         stage.initOwner(this.mainStage.getOwner());
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
-
     }
 
     @FXML
@@ -138,6 +142,6 @@ public class AppPresenter implements Initializable, EventBusListener {
 
     @FXML
     public void openAbout(ActionEvent event) {
-        throw new RuntimeException("Not impl");
+        openModalDialog("About", new AboutView());
     }
 }
