@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
@@ -52,6 +53,9 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     @FXML
     private TextField nameField;
 
+    @FXML
+    public ChoiceBox<String> removeSetChoiceBox;
+
     private LineChart<Number, Number> controlledChart;
 
     @Inject
@@ -66,16 +70,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     }
 
     @FXML
-    public void gaussianReplace(ActionEvent event) {
-        renderGaussian(true);
-    }
-
-    @FXML
-    public void gaussianAppend(ActionEvent event) {
-        renderGaussian(false);
-    }
-
-    private void renderGaussian(boolean clearViewBefore) {
+    public void gaussianAdd(ActionEvent event) {
         try {
             String name = getFuzzySetName();
             if (name.isEmpty())
@@ -85,7 +80,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double sigma = Double.parseDouble(gaussianSigma.getText());
 
             MemberFunction gaussian = MemberFunction.gaussian(mi, sigma);
-            finishRendering(name, gaussian, clearViewBefore);
+            finishRendering(name, gaussian);
 
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
@@ -107,16 +102,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     }
 
     @FXML
-    public void triangleReplace(ActionEvent event) {
-        renderTriangle(true);
-    }
-
-    @FXML
-    public void TriangleAppend(ActionEvent event) {
-        renderTriangle(false);
-    }
-
-    private void renderTriangle(boolean clearViewBefore) {
+    public void triangleAdd(ActionEvent event) {
         try {
             String name = getFuzzySetName();
             if (name.isEmpty())
@@ -127,7 +113,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double c = Double.parseDouble(triangleC.getText());
 
             MemberFunction triangle = MemberFunction.triangle(a, b, c);
-            finishRendering(name, triangle, clearViewBefore);
+            finishRendering(name, triangle);
 
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
@@ -135,15 +121,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
     }
 
     @FXML
-    public void trapezoidReplace(ActionEvent event) {
-        renderTrapezoid(true);
-    }
-
-    public void trapezoidAppend(ActionEvent event) {
-        renderTrapezoid(false);
-    }
-
-    private void renderTrapezoid(boolean clearViewBefore) {
+    public void trapezoidAdd(ActionEvent event) {
         try {
             String name = getFuzzySetName();
             if (name.isEmpty())
@@ -155,7 +133,7 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             double d = Double.parseDouble(trapezoidD.getText());
 
             MemberFunction trapezoid = MemberFunction.trapezoid(a, b, c, d);
-            finishRendering(name, trapezoid, clearViewBefore);
+            finishRendering(name, trapezoid);
 
         } catch (NumberFormatException ex) {
             sendInvalidNumberFormatMessage();
@@ -166,15 +144,13 @@ public class EditchartPresenter implements Initializable, EventBusListener {
         this.controlledChart = controlledChart;
     }
 
-    private void finishRendering(String name, MemberFunction function, boolean clearViewBefore) {
-        if (clearViewBefore)
-            controlledChart.getData()
-                           .clear();
-
+    private void finishRendering(String name, MemberFunction function) {
         FuzzySet fuzzySet = new FuzzySet(name, function);
         fuzzySetService.addSet(fuzzySet);
-        fuzzySet.visualize(controlledChart);
+        fuzzySet.visualizeOn(controlledChart);
 
+        removeSetChoiceBox.getItems()
+                          .add(name);
         eventBus.broadcast("newSet", fuzzySet);
         eventBus.unicast("appView", "info", name + " plotted");
         clearForm();
@@ -186,8 +162,6 @@ public class EditchartPresenter implements Initializable, EventBusListener {
             controlledChart.getData()
                            .clear();
             clearForm();
-
-
         } else {
             logger.log("Unknown message " + messageID);
         }
@@ -207,6 +181,25 @@ public class EditchartPresenter implements Initializable, EventBusListener {
 
         gaussianMi.clear();
         gaussianSigma.clear();
+    }
+
+    @FXML
+    public void onRemoveSet(ActionEvent event) {
+        String fuzzySetName = removeSetChoiceBox.getValue();
+        if (fuzzySetName == null || fuzzySetName.isEmpty()) {
+            eventBus.unicast("appView", "error", "Please select set to remove");
+            return;
+        }
+
+
+        if (!controlledChart.getData()
+                            .removeIf(series -> fuzzySetName.equals(series.getName()))) {
+            throw new RuntimeException("No set removed");
+        }
+        fuzzySetService.removeSet(fuzzySetName);
+        removeSetChoiceBox.getItems()
+                          .remove(fuzzySetName);
+        eventBus.unicast("appView", "info", "Set " + fuzzySetName + " was removed successfully");
     }
 }
 

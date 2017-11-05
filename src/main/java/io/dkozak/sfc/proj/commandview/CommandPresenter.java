@@ -81,7 +81,7 @@ public class CommandPresenter implements Initializable, EventBusListener {
 
         chart.getData()
              .clear();
-        result.visualize(chart);
+        result.visualizeOn(chart);
 
         eventBus.unicast("appView", "info", result.getName() + " plotted");
     }
@@ -103,7 +103,7 @@ public class CommandPresenter implements Initializable, EventBusListener {
 
         chart.getData()
              .clear();
-        complement.visualize(chart);
+        complement.visualizeOn(chart);
         eventBus.unicast("appView", "info", complement.getName() + " plotted");
     }
 

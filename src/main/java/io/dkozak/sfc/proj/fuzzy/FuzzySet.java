@@ -53,7 +53,7 @@ public class FuzzySet {
         return new FuzzySet("Complement of " + name, new MemberFunction(complement));
     }
 
-    public void visualize(LineChart<Number, Number> chart) {
+    public void visualizeOn(LineChart<Number, Number> chart) {
         memberFunction.visualizeData(chart, this.name);
     }
 

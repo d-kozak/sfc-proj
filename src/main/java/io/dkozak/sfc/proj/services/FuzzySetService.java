@@ -27,4 +27,9 @@ public class FuzzySetService {
         FuzzySet fuzzySet = sets.get(name);
         return fuzzySet != null ? fuzzySet : FuzzySet.NULL;
     }
+
+    public void removeSet(String name) {
+        if (sets.remove(name) == null)
+            throw new RuntimeException("Set " + name + " does not exist");
+    }
 }
