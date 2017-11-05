@@ -9,6 +9,7 @@ import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.settings.SettingsView;
 import io.dkozak.sfc.proj.utils.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -94,6 +95,8 @@ public class AppPresenter implements Initializable, EventBusListener {
             infoText.setFill(Color.RED);
         } else if ("settingsUpdated".equals(messageID)) {
             applyCurrentSettings();
+            infoText.setFill(Color.BLACK);
+            infoText.setText("Settings updated");
         } else
             logger.log("Unknown message " + messageID);
     }
@@ -126,5 +129,15 @@ public class AppPresenter implements Initializable, EventBusListener {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
+    }
+
+    @FXML
+    public void closeApp(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    public void openAbout(ActionEvent event) {
+        throw new RuntimeException("Not impl");
     }
 }
