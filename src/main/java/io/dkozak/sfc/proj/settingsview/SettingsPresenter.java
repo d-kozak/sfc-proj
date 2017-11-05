@@ -1,4 +1,4 @@
-package io.dkozak.sfc.proj.settings;
+package io.dkozak.sfc.proj.settingsview;
 
 import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;

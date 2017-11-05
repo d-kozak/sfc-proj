@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <VBox prefHeight="150.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.dkozak.sfc.proj.settings.SettingsPresenter">
+      fx:controller="io.dkozak.sfc.proj.settingsview.SettingsPresenter">
     <children>
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -32,6 +32,9 @@
                                            prefWidth="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER"
                                            GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
                             </children>
+                            <padding>
+                                <Insets top="5.0"/>
+                            </padding>
                         </GridPane>
                     </content>
                 </Tab>

@@ -9,7 +9,7 @@ import io.dkozak.sfc.proj.editchartview.EditchartView;
 import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
-import io.dkozak.sfc.proj.settings.SettingsView;
+import io.dkozak.sfc.proj.settingsview.SettingsView;
 import io.dkozak.sfc.proj.utils.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
