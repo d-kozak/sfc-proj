@@ -1,9 +1,12 @@
 package io.dkozak.sfc.proj.utils;
 
 import com.airhacks.afterburner.views.FXMLView;
+import io.dkozak.sfc.proj.services.SettingsService;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,5 +31,14 @@ public class Utils {
         ((Node) event.getSource()).getScene()
                                   .getWindow()
                                   .hide();
+    }
+
+    public static void bindChartLimits(LineChart<Number, Number> chart, SettingsService settingsService) {
+        NumberAxis xAxis = (NumberAxis) chart.getXAxis();
+        xAxis.setAutoRanging(false);
+        settingsService.graphMinimumXProperty()
+                       .bindBidirectional(xAxis.lowerBoundProperty());
+        settingsService.graphMaximumXProperty()
+                       .bindBidirectional(xAxis.upperBoundProperty());
     }
 }

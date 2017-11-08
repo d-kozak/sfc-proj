@@ -2,6 +2,7 @@ package io.dkozak.sfc.proj.components.settings;
 
 import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import lombok.val;
+import javafx.util.converter.NumberStringConverter;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -34,29 +35,19 @@ public class SettingsPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        graphMinimumX.setText(Integer.toString(settingsService.getGraphMinimumX()));
-        graphMaximumX.setText(Integer.toString(settingsService.getGraphMaximumX()));
+        Bindings.bindBidirectional(graphMinimumX.textProperty(), settingsService.graphMinimumXProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(graphMaximumX.textProperty(), settingsService.graphMaximumXProperty(), new NumberStringConverter());
     }
 
     @FXML
     void onConfirm(ActionEvent event) {
-
-        try {
-            val graphMinimumX = Integer.parseInt(this.graphMinimumX.getText());
-            val graphMaximumX = Integer.parseInt(this.graphMaximumX.getText());
-
-            if (graphMinimumX > graphMaximumX) {
-                displayErrorMessage("MinimumX must be bigger than maximumX");
-                return;
-            }
-
-            settingsService.setGraphMinimumX(graphMinimumX);
-            settingsService.setGraphMaximumX(graphMaximumX);
-            closeWindow(event);
-            eventBus.broadcast("settingsUpdated");
-        } catch (NumberFormatException ex) {
-            displayErrorMessage("Invalid number format, please correct it");
+        if (settingsService.getGraphMinimumX() > settingsService.getGraphMaximumX()) {
+            displayErrorMessage("MinimumX must be bigger than maximumX");
+            return;
         }
+        closeWindow(event);
+        eventBus.broadcast("settingsUpdated");
+
     }
 
     @FXML

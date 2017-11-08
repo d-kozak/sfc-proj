@@ -5,6 +5,7 @@ import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.fuzzy.MemberFunction;
 import io.dkozak.sfc.proj.services.EditedFuzzySetService;
 import io.dkozak.sfc.proj.services.InferenceResultService;
+import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.utils.Utils;
@@ -18,6 +19,8 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
+
+import static io.dkozak.sfc.proj.utils.Utils.bindChartLimits;
 
 public class ChartLinePresenter implements EventBusListener, Initializable {
     @FXML
@@ -39,12 +42,20 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
     @Inject
     private EventBus eventBus;
 
+    @Inject
+    private SettingsService settingsService;
+
     private Map<String, FuzzySet> sets = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         eventBus.register("chartLinePresenter " + (new Random().nextInt()), this);
+
+        bindChartLimits(chartLeft, settingsService);
+        bindChartLimits(chartMiddle, settingsService);
+        bindChartLimits(chartRight, settingsService);
     }
+
 
     @FXML
     public void onAntecedent1(ActionEvent event) {

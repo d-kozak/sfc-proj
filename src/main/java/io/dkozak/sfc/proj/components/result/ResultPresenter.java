@@ -3,6 +3,7 @@ package io.dkozak.sfc.proj.components.result;
 import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.fuzzy.MemberFunction;
 import io.dkozak.sfc.proj.services.InferenceResultService;
+import io.dkozak.sfc.proj.services.SettingsService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
+import static io.dkozak.sfc.proj.utils.Utils.bindChartLimits;
+
 public class ResultPresenter implements Initializable, EventBusListener {
 
     @FXML
@@ -27,9 +30,13 @@ public class ResultPresenter implements Initializable, EventBusListener {
     @Inject
     private EventBus eventBus;
 
+    @Inject
+    private SettingsService settingsService;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         eventBus.register("resultView", this);
+        bindChartLimits(resultChart, settingsService);
     }
 
     @FXML
