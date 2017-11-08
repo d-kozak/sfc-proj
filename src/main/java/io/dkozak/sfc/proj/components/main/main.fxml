@@ -15,8 +15,9 @@
                         <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Rules">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onAddRule" text="Add new rule"/>
                         <MenuItem mnemonicParsing="false" onAction="#clearAll" text="Clear all"/>
                     </items>
                 </Menu>
@@ -29,6 +30,10 @@
         </MenuBar>
     </top>
     <center>
-        <VBox fx:id="centralVBox" BorderPane.alignment="CENTER"/>
+        <ScrollPane hbarPolicy="NEVER" prefViewportHeight="771.0" prefViewportWidth="1000.0">
+            <content>
+                <VBox fx:id="centralVBox" BorderPane.alignment="CENTER"/>
+            </content>
+        </ScrollPane>
     </center>
 </BorderPane>

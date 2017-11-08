@@ -35,6 +35,9 @@ public class ResultPresenter implements Initializable {
     public void onCompute(ActionEvent event) {
         resultChart.getData()
                    .clear();
+        inferenceResultService.getResults()
+                              .clear();
+
         eventBus.broadcast("compute");
         List<FuzzySet> results = inferenceResultService.getResults();
         if (results.isEmpty()) {
