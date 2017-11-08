@@ -4,25 +4,74 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.dkozak.sfc.proj.components.setdetails.SetDetailsPresenter">
     <children>
         <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Gaussian">
+                <Tab text="Constant">
                     <content>
                         <GridPane layoutX="38.0" layoutY="51.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mi"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigma" GridPane.rowIndex="1"/>
-                                <TextField fx:id="gaussianMi" GridPane.columnIndex="1"/>
-                                <TextField fx:id="gaussianSigma" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.rowIndex="1"/>
+                                <TextField fx:id="constantA" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="y(x) = A" GridPane.columnSpan="2"
+                                      GridPane.halignment="CENTER"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
+                                <RowConstraints maxHeight="168.0" minHeight="10.0" prefHeight="118.0"
+                                                vgrow="SOMETIMES"/>
+                                <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="229.0"
+                                                vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Linear">
+                    <content>
+                        <GridPane layoutX="38.0" layoutY="51.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="K" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Q" GridPane.rowIndex="2"/>
+                                <TextField fx:id="linearK" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="linearQ" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="y(x) = max(min(K * x + Q,1),0) "
+                                      GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Gaussian">
+                    <content>
+                        <GridPane layoutX="38.0" layoutY="51.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mi" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigma" GridPane.rowIndex="2"/>
+                                <TextField fx:id="gaussianMi" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="gaussianSigma" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="y(x) = e^((-1/2) * ((x - Mi)/ Sigma)^2) " GridPane.columnSpan="2"
+                                      GridPane.halignment="CENTER"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
@@ -34,18 +83,22 @@
                     <content>
                         <GridPane>
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
-                                <TextField fx:id="triangleA" GridPane.columnIndex="1"/>
-                                <TextField fx:id="triangleB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <TextField fx:id="triangleC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="2"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="3"/>
+                                <TextField fx:id="triangleA" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="triangleB" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <TextField fx:id="triangleC" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="y(x) = min(((x - A) / (B - A)), ((C - x) / (C - B)), 0)"
+                                      GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
@@ -57,20 +110,24 @@
                     <content>
                         <GridPane>
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="1"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="2"/>
-                                <TextField fx:id="trapezoidA" GridPane.columnIndex="1"/>
-                                <TextField fx:id="trapezoidB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <TextField fx:id="trapezoidC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                <TextField fx:id="trapezoidD" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="3"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.rowIndex="1"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.rowIndex="2"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.rowIndex="3"/>
+                                <TextField fx:id="trapezoidA" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="trapezoidB" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <TextField fx:id="trapezoidC" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                <TextField fx:id="trapezoidD" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="4"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="y(x) = min(((x - A) / B - A)),1,((D - x)/(D - C),0)" GridPane.columnSpan="2"
+                                      GridPane.halignment="CENTER"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
@@ -98,5 +155,6 @@
                 </Button>
             </children>
         </HBox>
+        <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0"/>
     </children>
 </VBox>

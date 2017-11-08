@@ -24,6 +24,16 @@ public class SetDetailsPresenter implements Initializable {
     private Button confirmButton;
     @FXML
     private TabPane tabPane;
+
+    @FXML
+    private TextField constantA;
+
+    @FXML
+    private TextField linearK;
+
+    @FXML
+    private TextField linearQ;
+
     @FXML
     private TextField gaussianSigma;
     @FXML
@@ -76,8 +86,44 @@ public class SetDetailsPresenter implements Initializable {
             case "Gaussian":
                 confirmGaussian(event);
                 break;
+            case "Linear":
+                confirmLinear(event);
+                break;
+            case "Constant":
+                confirmConstant(event);
+                break;
             default:
                 throw new RuntimeException("Unknown member function type" + functionType);
+        }
+    }
+
+    private void confirmConstant(ActionEvent event) {
+        try {
+            double a = Double.parseDouble(constantA.getText());
+            if (a < 0 || a > 1) {
+                showErrorMessage("Membership functions values are limited to interval <0,1>");
+                return;
+            }
+
+
+            MemberFunction constant = MemberFunction.constant(a);
+            finishEditing(constant, event);
+
+        } catch (NumberFormatException ex) {
+            showInvalidNumberFormatMessage();
+        }
+    }
+
+    private void confirmLinear(ActionEvent event) {
+        try {
+            double k = Double.parseDouble(linearK.getText());
+            double q = Double.parseDouble(linearQ.getText());
+
+            MemberFunction linear = MemberFunction.linearBounded(k, q);
+            finishEditing(linear, event);
+
+        } catch (NumberFormatException ex) {
+            showInvalidNumberFormatMessage();
         }
     }
 
@@ -134,9 +180,13 @@ public class SetDetailsPresenter implements Initializable {
         closeWindow(event);
     }
 
-    private void showInvalidNumberFormatMessage() {
+    private void showErrorMessage(String message) {
         infoText.setFill(Color.RED);
-        infoText.setText("Please check the number format");
+        infoText.setText(message);
+    }
+
+    private void showInvalidNumberFormatMessage() {
+        showErrorMessage("Please check the number format");
     }
 
     @FXML

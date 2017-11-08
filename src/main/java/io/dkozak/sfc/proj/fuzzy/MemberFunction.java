@@ -5,6 +5,9 @@ import javafx.scene.chart.XYChart;
 
 import java.util.function.Function;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class MemberFunction {
     public enum Type {
         UNKNOWN, LINEAR, CONSTANT, GAUSSIAN, NORMAL_DISTRIBUTION, TRIANGLE, TRAPEZOID;
@@ -13,6 +16,10 @@ public class MemberFunction {
     public static MemberFunction linear(double a, double b, double c, double d) {
         double k = (d - b) / (c - a);
         return new MemberFunction(Type.LINEAR, x -> x.doubleValue() * k);
+    }
+
+    public static MemberFunction linearBounded(double k, double q) {
+        return new MemberFunction(Type.LINEAR, x -> max(min(k * x.doubleValue() + q, 1), 0));
     }
 
     public static MemberFunction constant(double a) {
@@ -31,7 +38,7 @@ public class MemberFunction {
     public static MemberFunction triangle(double a, double b, double c) {
         return new MemberFunction(Type.TRIANGLE, input -> {
             double x = input.doubleValue();
-            double val = Math.min(((x - a) / (b - a)), ((c - x) / (c - b)));
+            double val = min(((x - a) / (b - a)), ((c - x) / (c - b)));
             return val >= 0 ? val : 0;
         });
     }
@@ -39,7 +46,7 @@ public class MemberFunction {
     public static MemberFunction trapezoid(double a, double b, double c, double d) {
         return new MemberFunction(Type.TRAPEZOID, input -> {
             double x = input.doubleValue();
-            double val = Math.min((x - a) / (b - a), (d - x) / (d - c));
+            double val = min((x - a) / (b - a), (d - x) / (d - c));
             val = val <= 1 ? val : 1;
             return val >= 0 ? val : 0;
         });
