@@ -1,4 +1,4 @@
-package io.dkozak.sfc.proj.aboutview;
+package io.dkozak.sfc.proj.components.about;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

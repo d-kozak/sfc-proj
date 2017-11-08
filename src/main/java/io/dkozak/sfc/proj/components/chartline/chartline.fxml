@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="io.dkozak.sfc.proj.components.chartline.ChartLinePresenter">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <LineChart fx:id="chartLeft" prefHeight="300.0" prefWidth="300.0" createSymbols="false">
+            <xAxis>
+                <NumberAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" upperBound="1.0"/>
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="chartMiddle" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="1"
+                   createSymbols="false">
+            <xAxis>
+                <NumberAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" upperBound="1.0"/>
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="chartRight" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="2"
+                   createSymbols="false">
+            <xAxis>
+                <NumberAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" upperBound="1.0"/>
+            </yAxis>
+        </LineChart>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onAntecedent1" text="Antecedent 1">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onFact1" text="Fact 1">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onAntecedent2" text="Antecedent 2">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onFact2" text="Fact 2">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onConsequent" text="Consequent">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</GridPane>

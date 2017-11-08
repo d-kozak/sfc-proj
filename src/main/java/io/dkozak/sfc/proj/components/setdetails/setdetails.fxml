@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.dkozak.sfc.proj.editchartview.EditchartPresenter">
+      fx:controller="io.dkozak.sfc.proj.components.setdetails.SetDetailsPresenter">
     <children>
-        <HBox>
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name: ">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                    </HBox.margin>
-                </Text>
-                <TextField fx:id="nameField"/>
-            </children>
-        </HBox>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Gausian">
+                <Tab text="Gaussian">
                     <content>
                         <GridPane layoutX="38.0" layoutY="51.0">
                             <children>
@@ -27,8 +17,6 @@
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigma" GridPane.rowIndex="1"/>
                                 <TextField fx:id="gaussianMi" GridPane.columnIndex="1"/>
                                 <TextField fx:id="gaussianSigma" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <Button mnemonicParsing="false" onAction="#gaussianAdd" text="Add"
-                                        GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -52,15 +40,12 @@
                                 <TextField fx:id="triangleA" GridPane.columnIndex="1"/>
                                 <TextField fx:id="triangleB" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                                 <TextField fx:id="triangleC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                <Button mnemonicParsing="false" onAction="#triangleAdd" text="Add"
-                                        GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
@@ -80,15 +65,12 @@
                                 <TextField fx:id="trapezoidC" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                                 <TextField fx:id="trapezoidD" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="3"/>
-                                <Button mnemonicParsing="false" onAction="#trapezoidAdd" text="Add"
-                                        GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
@@ -102,23 +84,19 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
         </TabPane>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Remove set from the graph"/>
-        <HBox alignment="CENTER">
+        <HBox alignment="TOP_RIGHT">
             <children>
-                <ChoiceBox fx:id="removeSetChoiceBox" prefWidth="100.0">
+                <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirm" text="SET IN CODE">
                     <HBox.margin>
-                        <Insets right="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </HBox.margin>
-                </ChoiceBox>
-                <Button mnemonicParsing="false" onAction="#onRemoveSet" text="Remove">
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onCancel" text="Cancel">
                     <HBox.margin>
-                        <Insets right="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </HBox.margin>
                 </Button>
             </children>
-            <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
-            </VBox.margin>
         </HBox>
     </children>
 </VBox>

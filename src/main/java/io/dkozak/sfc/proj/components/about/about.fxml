@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.dkozak.sfc.proj.aboutview.AboutPresenter">
+      fx:controller="io.dkozak.sfc.proj.components.about.AboutPresenter">
     <children>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fuzzy inference presenter "/>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SFC Project 2017"/>

@@ -1,4 +1,4 @@
-package io.dkozak.sfc.proj.aboutview;
+package io.dkozak.sfc.proj.components.about;
 
 import com.airhacks.afterburner.views.FXMLView;
 

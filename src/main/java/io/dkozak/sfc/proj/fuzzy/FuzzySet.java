@@ -5,10 +5,15 @@ import javafx.scene.chart.LineChart;
 import java.util.function.Function;
 
 public class FuzzySet {
-    public static final FuzzySet NULL = new FuzzySet("NULL", new MemberFunction(Function.identity()));
+    public static final FuzzySet NULL = new FuzzySet("NULL", new MemberFunction(MemberFunction.Type.UNKNOWN, Function.identity()));
 
-    private final MemberFunction memberFunction;
-    private final String name;
+    private MemberFunction memberFunction;
+    private String name;
+
+    public FuzzySet(MemberFunction memberFunction) {
+        this.memberFunction = memberFunction;
+        name = "NULL";
+    }
 
     public FuzzySet(String name, MemberFunction memberFunction) {
         this.name = name;
@@ -27,7 +32,7 @@ public class FuzzySet {
             return Math.max(left, right);
         };
 
-        return new FuzzySet("Union of " + this.name + " and " + oth.name, new MemberFunction(union));
+        return new FuzzySet("Union of " + this.name + " and " + oth.name, new MemberFunction(MemberFunction.Type.UNKNOWN, union));
     }
 
     public FuzzySet intersect(FuzzySet oth) {
@@ -42,7 +47,7 @@ public class FuzzySet {
             return Math.min(left, right);
         };
 
-        return new FuzzySet("Intersection of " + this.name + " and " + oth.name, new MemberFunction(join));
+        return new FuzzySet("Intersection of " + this.name + " and " + oth.name, new MemberFunction(MemberFunction.Type.UNKNOWN, join));
     }
 
     public FuzzySet complement() {
@@ -50,7 +55,7 @@ public class FuzzySet {
         Function<Number, Number> complement = input -> 1 - current.apply(input)
                                                                   .doubleValue();
 
-        return new FuzzySet("Complement of " + name, new MemberFunction(complement));
+        return new FuzzySet("Complement of " + name, new MemberFunction(MemberFunction.Type.UNKNOWN, complement));
     }
 
     public void visualizeOn(LineChart<Number, Number> chart) {
@@ -67,6 +72,10 @@ public class FuzzySet {
         return name.equals(fuzzySet.name);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public int hashCode() {
         return name.hashCode();
@@ -74,5 +83,13 @@ public class FuzzySet {
 
     public String getName() {
         return name;
+    }
+
+    public MemberFunction getMemberFunction() {
+        return memberFunction;
+    }
+
+    public void setMemberFunction(MemberFunction memberFunction) {
+        this.memberFunction = memberFunction;
     }
 }

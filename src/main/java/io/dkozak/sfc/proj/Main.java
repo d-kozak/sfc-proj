@@ -1,7 +1,7 @@
 package io.dkozak.sfc.proj;
 
 import com.airhacks.afterburner.injection.Injector;
-import io.dkozak.sfc.proj.appview.AppView;
+import io.dkozak.sfc.proj.components.main.MainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,8 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        AppView appView = new AppView();
-        Scene scene = new Scene(appView.getView());
+        MainView mainView = new MainView();
+        Scene scene = new Scene(mainView.getView());
 
         // custom values for dependency injection
         Map<Object, Object> customProperties = new HashMap<>();
@@ -30,6 +30,7 @@ public class Main extends Application {
                                      .toExternalForm();
         scene.getStylesheets()
              .add(uri);
+        stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
     }

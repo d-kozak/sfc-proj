@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <VBox prefHeight="150.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.dkozak.sfc.proj.settingsview.SettingsPresenter">
+      fx:controller="io.dkozak.sfc.proj.components.settings.SettingsPresenter">
     <children>
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <tabs>

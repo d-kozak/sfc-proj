@@ -1,4 +1,4 @@
-package io.dkozak.sfc.proj.settingsview;
+package io.dkozak.sfc.proj.components.settings;
 
 import com.airhacks.afterburner.views.FXMLView;
 
