@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 import static io.dkozak.sfc.proj.utils.Utils.bindChartLimits;
+import static io.dkozak.sfc.proj.utils.Utils.showSetInAChart;
 
 public class ResultPresenter implements Initializable, EventBusListener {
 
@@ -72,7 +73,7 @@ public class ResultPresenter implements Initializable, EventBusListener {
         };
 
         FuzzySet result = new FuzzySet("Inference result", new MemberFunction(MemberFunction.Type.UNKNOWN, resultingMemberFunction));
-        result.visualizeOn(resultChart);
+        showSetInAChart(result, resultChart, settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
 
     }
 

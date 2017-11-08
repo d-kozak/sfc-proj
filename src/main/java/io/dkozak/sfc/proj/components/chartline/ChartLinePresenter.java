@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import static io.dkozak.sfc.proj.utils.Utils.bindChartLimits;
+import static io.dkozak.sfc.proj.utils.Utils.showSetInAChart;
 
 public class ChartLinePresenter implements EventBusListener, Initializable {
     @FXML
@@ -90,7 +91,7 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
         sets.put(name, set);
         editedFuzzySetService.unsetProperty();
         set.setName(name);
-        set.visualizeOn(chart);
+        showSetInAChart(set, chart, settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
     }
 
     @Override
@@ -123,19 +124,19 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
 
             FuzzySet minLeft = antecedent1.intersect(fact1), minRight = null;
             minLeft.setName("Min(a1,f1)");
-            minLeft.visualizeOn(chartLeft);
+            showSetInAChart(minLeft, chartLeft, settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
 
             FuzzySet antecedent2 = sets.get("Antecedent 2");
             FuzzySet fact2 = sets.get("Fact 2");
             if (antecedent2 != null && fact2 != null) {
                 minRight = antecedent2.intersect(fact2);
                 minRight.setName("Min(a2,f2)");
-                minRight.visualizeOn(chartMiddle);
+                showSetInAChart(minRight, chartMiddle, settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
             }
 
-            double maxValLeft = minLeft.getMaxValue();
+            double maxValLeft = minLeft.getMaxValueFromInterval(settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
             if (minRight != null) {
-                maxValLeft = Math.min(maxValLeft, minRight.getMaxValue());
+                maxValLeft = Math.min(maxValLeft, minRight.getMaxValueFromInterval(settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX()));
             }
 
             FuzzySet consequent = sets.get("Consequent");
@@ -149,7 +150,7 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
                                                                                                   .doubleValue(), finalMaxVal);
 
             FuzzySet result = new FuzzySet("Inference for this line", new MemberFunction(MemberFunction.Type.UNKNOWN, resultMemberFunction));
-            result.visualizeOn(chartRight);
+            showSetInAChart(result, chartRight, settingsService.getGraphMinimumX(), settingsService.getGraphMaximumX());
             inferenceResultService.add(result);
         } catch (NullPointerException ex) {
             ex.printStackTrace();

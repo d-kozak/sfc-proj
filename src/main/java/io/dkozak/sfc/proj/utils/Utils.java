@@ -1,12 +1,15 @@
 package io.dkozak.sfc.proj.utils;
 
 import com.airhacks.afterburner.views.FXMLView;
+import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.services.SettingsService;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,6 +36,22 @@ public class Utils {
                                   .hide();
     }
 
+    public static void showSetInAChart(FuzzySet fuzzySet, LineChart<Number, Number> lineChart, int lowerBound, int upperBound) {
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(fuzzySet.getName());
+
+        for (int i = 0; i < 100; i++) {
+            series.getData()
+                  .add(new XYChart.Data<>(i, fuzzySet.getMemberFunction()
+                                                     .getFunction()
+                                                     .apply(i)));
+        }
+
+        lineChart.getData()
+                 .add(series);
+
+    }
+
     public static void bindChartLimits(LineChart<Number, Number> chart, SettingsService settingsService) {
         NumberAxis xAxis = (NumberAxis) chart.getXAxis();
         xAxis.setAutoRanging(false);
@@ -40,5 +59,14 @@ public class Utils {
                        .bindBidirectional(xAxis.lowerBoundProperty());
         settingsService.graphMaximumXProperty()
                        .bindBidirectional(xAxis.upperBoundProperty());
+
+        ChangeListener<Number> updateTickUnitListener = (observable, oldValue, newValue) -> {
+            double tickUnit = (xAxis.getUpperBound() - xAxis.getLowerBound()) / 10.0;
+            xAxis.setTickUnit(tickUnit);
+        };
+        settingsService.graphMinimumXProperty()
+                       .addListener(updateTickUnitListener);
+        settingsService.graphMaximumXProperty()
+                       .addListener(updateTickUnitListener);
     }
 }

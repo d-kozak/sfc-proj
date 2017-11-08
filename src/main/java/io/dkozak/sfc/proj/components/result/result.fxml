@@ -13,7 +13,7 @@
                 <NumberAxis side="BOTTOM"/>
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT" upperBound="1.0"/>
+                <NumberAxis side="LEFT" upperBound="1.0" autoRanging="false" tickUnit="0.1"/>
             </yAxis>
             <VBox.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>

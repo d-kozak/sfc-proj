@@ -1,8 +1,5 @@
 package io.dkozak.sfc.proj.fuzzy;
 
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
-
 import java.util.function.Function;
 
 import static java.lang.Math.max;
@@ -59,21 +56,6 @@ public class MemberFunction {
         this.type = type;
         this.function = function;
     }
-
-    public void visualizeData(LineChart<Number, Number> lineChart, String name) {
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName(name);
-
-
-        for (int i = 0; i < 100; i++) {
-            series.getData()
-                  .add(new XYChart.Data<>(i, function.apply(i)));
-        }
-
-        lineChart.getData()
-                 .add(series);
-    }
-
     public Function<Number, Number> getFunction() {
         return function;
     }

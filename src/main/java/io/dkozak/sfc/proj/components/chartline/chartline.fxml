@@ -22,7 +22,7 @@
                 <NumberAxis side="BOTTOM"/>
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT" upperBound="1.0"/>
+                <NumberAxis side="LEFT" upperBound="1.0" autoRanging="false" tickUnit="0.1"/>
             </yAxis>
         </LineChart>
         <LineChart fx:id="chartMiddle" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="1"
@@ -31,7 +31,7 @@
                 <NumberAxis side="BOTTOM"/>
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT" upperBound="1.0"/>
+                <NumberAxis side="LEFT" upperBound="1.0" autoRanging="false" tickUnit="0.1"/>
             </yAxis>
         </LineChart>
         <LineChart fx:id="chartRight" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="2"
@@ -40,7 +40,7 @@
                 <NumberAxis side="BOTTOM"/>
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT" upperBound="1.0"/>
+                <NumberAxis side="LEFT" upperBound="1.0" autoRanging="false" tickUnit="0.1"/>
             </yAxis>
         </LineChart>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">

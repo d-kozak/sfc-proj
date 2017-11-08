@@ -1,7 +1,5 @@
 package io.dkozak.sfc.proj.fuzzy;
 
-import javafx.scene.chart.LineChart;
-
 import java.util.function.Function;
 
 public class FuzzySet {
@@ -58,10 +56,6 @@ public class FuzzySet {
         return new FuzzySet("Complement of " + name, new MemberFunction(MemberFunction.Type.UNKNOWN, complement));
     }
 
-    public void visualizeOn(LineChart<Number, Number> chart) {
-        memberFunction.visualizeData(chart, this.name);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,12 +87,12 @@ public class FuzzySet {
         this.memberFunction = memberFunction;
     }
 
-    public double getMaxValue() {
+    public double getMaxValueFromInterval(int lowerBound, int uppperBound) {
         Function<Number, Number> function = memberFunction.getFunction();
         double max = function
-                .apply(0)
+                .apply(lowerBound)
                 .doubleValue();
-        for (int i = 1; i < 100; i++) {
+        for (int i = lowerBound + 1; i < uppperBound; i++) {
             double tmp = function.apply(i)
                                  .doubleValue();
             if (tmp > max)
