@@ -1,6 +1,7 @@
 package io.dkozak.sfc.proj;
 
 import com.airhacks.afterburner.injection.Injector;
+import com.aquafx_project.AquaFx;
 import io.dkozak.sfc.proj.components.main.MainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,6 +31,7 @@ public class Main extends Application {
                                      .toExternalForm();
         scene.getStylesheets()
              .add(uri);
+        AquaFx.style();
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();

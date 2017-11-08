@@ -4,6 +4,7 @@ import io.dkozak.sfc.proj.fuzzy.FuzzySet;
 import io.dkozak.sfc.proj.fuzzy.MemberFunction;
 import io.dkozak.sfc.proj.services.InferenceResultService;
 import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-public class ResultPresenter implements Initializable {
+public class ResultPresenter implements Initializable, EventBusListener {
 
     @FXML
     private LineChart<Number, Number> resultChart;
@@ -28,7 +29,7 @@ public class ResultPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        eventBus.register("resultView", this);
     }
 
     @FXML
@@ -66,5 +67,21 @@ public class ResultPresenter implements Initializable {
         FuzzySet result = new FuzzySet("Inference result", new MemberFunction(MemberFunction.Type.UNKNOWN, resultingMemberFunction));
         result.visualizeOn(resultChart);
 
+    }
+
+    @Override
+    public void onMessage(String messageID, Object content) {
+        switch (messageID) {
+            case "clear":
+                clearView();
+                break;
+            default:
+                System.err.println("Unknown message");
+        }
+    }
+
+    private void clearView() {
+        resultChart.getData()
+                   .clear();
     }
 }

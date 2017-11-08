@@ -5,6 +5,7 @@ import io.dkozak.sfc.proj.components.chartline.ChartLineView;
 import io.dkozak.sfc.proj.components.result.ResultView;
 import io.dkozak.sfc.proj.components.settings.SettingsView;
 import io.dkozak.sfc.proj.services.InferenceResultService;
+import io.dkozak.sfc.proj.services.eventbus.EventBus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +34,9 @@ public class MainPresenter implements Initializable {
     @Inject
     private Stage mainStage;
 
+    @Inject
+    private EventBus eventBus;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ResultView resultView = new ResultView();
@@ -54,6 +58,7 @@ public class MainPresenter implements Initializable {
 
     @FXML
     public void clearAll(ActionEvent event) {
+        eventBus.broadcast("clear");
         centralVBox.getChildren()
                    .clear();
         inferenceResultService.getResults()
