@@ -2,16 +2,24 @@ package io.dkozak.sfc.proj.components.chartline;
 
 import io.dkozak.sfc.proj.components.setdetails.SetDetailsView;
 import io.dkozak.sfc.proj.fuzzy.FuzzySet;
+import io.dkozak.sfc.proj.fuzzy.MemberFunction;
 import io.dkozak.sfc.proj.services.EditedFuzzySetService;
+import io.dkozak.sfc.proj.services.InferenceResultService;
+import io.dkozak.sfc.proj.services.eventbus.EventBus;
+import io.dkozak.sfc.proj.services.eventbus.EventBusListener;
 import io.dkozak.sfc.proj.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.net.URL;
+import java.util.*;
+import java.util.function.Function;
 
-public class ChartLinePresenter {
+public class ChartLinePresenter implements EventBusListener, Initializable {
     @FXML
     private LineChart<Number, Number> chartRight;
     @FXML
@@ -24,6 +32,19 @@ public class ChartLinePresenter {
 
     @Inject
     private EditedFuzzySetService editedFuzzySetService;
+
+    @Inject
+    private InferenceResultService inferenceResultService;
+
+    @Inject
+    private EventBus eventBus;
+
+    private Map<String, FuzzySet> sets = new HashMap<>();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        eventBus.register("chartLinePresenter " + (new Random().nextInt()), this);
+    }
 
     @FXML
     public void onAntecedent1(ActionEvent event) {
@@ -55,7 +76,73 @@ public class ChartLinePresenter {
     private void getEditedSetAndShow(String name, LineChart<Number, Number> chart) {
         Utils.openModalDialog(mainStage, name, new SetDetailsView());
         FuzzySet set = editedFuzzySetService.getProperty();
+        sets.put(name, set);
+        editedFuzzySetService.unsetProperty();
         set.setName(name);
         set.visualizeOn(chart);
+    }
+
+    @Override
+    public void onMessage(String messageID, Object content) {
+        switch (messageID) {
+            case "compute":
+                removeLastResults();
+                computeInference();
+                break;
+            default:
+                System.err.println("Unknown message " + messageID);
+        }
+    }
+
+    private void removeLastResults() {
+        chartLeft.getData()
+                 .removeIf(series -> "Min(a1,f1)".equals(series.getName()));
+        chartMiddle.getData()
+                   .removeIf(series -> "Min(a2,f2)".equals(series.getName()));
+        chartRight.getData()
+                  .removeIf(series -> "Inference for this line".equals(series.getName()));
+    }
+
+    private void computeInference() {
+        try {
+            FuzzySet antecedent1 = sets.get("Antecedent 1");
+            Objects.requireNonNull(antecedent1);
+            FuzzySet fact1 = sets.get("Fact 1");
+            Objects.requireNonNull(fact1);
+
+            FuzzySet minLeft = antecedent1.intersect(fact1), minRight = null;
+            minLeft.setName("Min(a1,f1)");
+            minLeft.visualizeOn(chartLeft);
+
+            FuzzySet antecedent2 = sets.get("Antecedent 2");
+            FuzzySet fact2 = sets.get("Fact 2");
+            if (antecedent2 != null && fact2 != null) {
+                minRight = antecedent2.intersect(fact2);
+                minRight.setName("Min(a2,f2)");
+                minRight.visualizeOn(chartMiddle);
+            }
+
+            double maxValLeft = minLeft.getMaxValue();
+            if (minRight != null) {
+                maxValLeft = Math.min(maxValLeft, minRight.getMaxValue());
+            }
+
+            FuzzySet consequent = sets.get("Consequent");
+            Objects.requireNonNull(consequent);
+
+            Function<Number, Number> consequentMemberFunction = consequent.getMemberFunction()
+                                                                          .getFunction();
+
+            final double finalMaxVal = maxValLeft;
+            Function<Number, Number> resultMemberFunction = x -> Math.min(consequentMemberFunction.apply(x)
+                                                                                                  .doubleValue(), finalMaxVal);
+
+            FuzzySet result = new FuzzySet("Inference for this line", new MemberFunction(MemberFunction.Type.UNKNOWN, resultMemberFunction));
+            result.visualizeOn(chartRight);
+            inferenceResultService.add(result);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
     }
 }

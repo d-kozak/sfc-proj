@@ -92,4 +92,19 @@ public class FuzzySet {
     public void setMemberFunction(MemberFunction memberFunction) {
         this.memberFunction = memberFunction;
     }
+
+    public double getMaxValue() {
+        Function<Number, Number> function = memberFunction.getFunction();
+        double max = function
+                .apply(0)
+                .doubleValue();
+        for (int i = 1; i < 100; i++) {
+            double tmp = function.apply(i)
+                                 .doubleValue();
+            if (tmp > max)
+                max = tmp;
+        }
+
+        return max;
+    }
 }

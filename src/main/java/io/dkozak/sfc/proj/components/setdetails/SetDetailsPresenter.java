@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -40,6 +42,9 @@ public class SetDetailsPresenter implements Initializable {
     private TextField trapezoidC;
     @FXML
     private TextField trapezoidD;
+
+    @FXML
+    private Text infoText;
 
     @Inject
     private EditedFuzzySetService editedFuzzySetService;
@@ -87,7 +92,7 @@ public class SetDetailsPresenter implements Initializable {
             finishEditing(trapezoid, event);
 
         } catch (NumberFormatException ex) {
-            sendInvalidNumberFormatMessage();
+            showInvalidNumberFormatMessage();
         }
     }
 
@@ -101,7 +106,7 @@ public class SetDetailsPresenter implements Initializable {
             finishEditing(triangle, event);
 
         } catch (NumberFormatException ex) {
-            sendInvalidNumberFormatMessage();
+            showInvalidNumberFormatMessage();
         }
     }
 
@@ -114,7 +119,7 @@ public class SetDetailsPresenter implements Initializable {
             finishEditing(gaussian, event);
 
         } catch (NumberFormatException ex) {
-            sendInvalidNumberFormatMessage();
+            showInvalidNumberFormatMessage();
         }
     }
 
@@ -129,8 +134,9 @@ public class SetDetailsPresenter implements Initializable {
         closeWindow(event);
     }
 
-    private void sendInvalidNumberFormatMessage() {
-
+    private void showInvalidNumberFormatMessage() {
+        infoText.setFill(Color.RED);
+        infoText.setText("Please check the number format");
     }
 
     @FXML
