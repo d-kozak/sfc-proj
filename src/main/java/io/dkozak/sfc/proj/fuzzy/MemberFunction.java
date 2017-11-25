@@ -25,11 +25,31 @@ public class MemberFunction {
 
 
     public static MemberFunction gaussian(double mi, double sigma) {
-        return new MemberFunction(Type.GAUSSIAN, x -> Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / sigma)));
+        return new MemberFunction(Type.GAUSSIAN, input -> gausFromWeb(input.doubleValue(), mi, sigma));
+    }
+
+    private static Number gausFromPresentation(double x, double c, double sigma) {
+        double fraction = (x - c) / sigma;
+        fraction = Math.abs(fraction);
+        fraction = -0.5 * fraction;
+        return Math.exp(fraction);
     }
 
     public static MemberFunction normalDistribution(double mi, double sigma) {
-        return new MemberFunction(Type.NORMAL_DISTRIBUTION, x -> ((1.0 / (sigma * Math.sqrt(2 * Math.PI))) * (Math.exp((-0.5) * Math.abs((x.doubleValue() - mi) / (double) sigma)))));
+        return new MemberFunction(Type.NORMAL_DISTRIBUTION, input -> gausFromWiki(input.doubleValue(), mi, sigma));
+    }
+
+    private static Number gausFromWiki(double x, double mi, double sigma) {
+        double fraction1 = 1.0 / (Math.sqrt(2.0 * Math.PI * Math.pow(sigma, 2)));
+        double ePow = -(Math.pow(x - mi, 2)) / (2.0 * Math.pow(sigma, 2));
+        return fraction1 * Math.exp(ePow);
+    }
+
+    private static Number gausFromWeb(double x, double mi, double sigma) {
+        // http://www.personal.reading.ac.uk/~sis01xh/teaching/ComputerControl/fcslide3.pdf
+
+        double fraction = -(Math.pow(mi - x, 2) / (2.0 * Math.pow(sigma, 2)));
+        return Math.exp(fraction);
     }
 
     public static MemberFunction triangle(double a, double b, double c) {
@@ -56,6 +76,7 @@ public class MemberFunction {
         this.type = type;
         this.function = function;
     }
+
     public Function<Number, Number> getFunction() {
         return function;
     }

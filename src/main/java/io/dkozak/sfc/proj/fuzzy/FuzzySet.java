@@ -10,7 +10,7 @@ public class FuzzySet {
 
     public FuzzySet(MemberFunction memberFunction) {
         this.memberFunction = memberFunction;
-        name = "NULL";
+        this.name = "NULL";
     }
 
     public FuzzySet(String name, MemberFunction memberFunction) {
