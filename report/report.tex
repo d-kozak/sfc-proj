@@ -1,0 +1,94 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[left=2.5cm,text={16cm,20cm},top=4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+% dalsi balicky
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{multicol}
+\graphicspath{ {images/} }
+\usepackage[bookmarksopen,colorlinks,plainpages=false,urlcolor=blue,
+unicode,linkcolor=black]{hyperref}
+
+\bibliographystyle{czplain}
+
+%úvodzovky
+\providecommand{\uv}[1]{\quotedblbase #1\textquotedblleft}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+    {
+    	\Huge\textsc{Vysoké učení technické v~Brně}}\\
+    \smallskip
+    {
+    	\huge\textsc{Fakulta informačních technologií}}\\
+    \bigskip
+    \vspace{\stretch{0.382}} %pomery odpovedajúcí zlatému rezu    
+    \huge{Soft computing}\\
+    \smallskip
+    \Huge{Projekt - fuzzy inference}\\
+    \vspace{\stretch{0.618}}
+\end{center}
+    {\Large \today \hfill David Kozák (xkozak15)  }\\
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Úvod}
+Tento text slouží jako dokumentace projektu do předmětu Soft Computing na téma Fuzzy inference. Byla vypracována v rámci akademického roku 2017/2018. 
+
+\section{Fuzzy logika}
+Jedná se o rozšíření klasické booleovské logiky umožňující vyjádřit nepřesnost či neurčitost. Příslušnost prvku do fuzzy množiny je vyjádřena reálným číslem z intervalu <0,1>. 
+
+\section{Uživalská příručka}
+Tato sekce se zabývá dvěma tématy, implementačními detaily a příkazy pro překlad a spuštění projektu.
+
+\subsection{Implementační detaily}
+Projekt byl implementován v programovacím jazyku Java s využitím GUI frameworku JavaFX. Krom toho jsou též využity externí knihovny ProjectLombok, junit, mockito, afterburner.fx a aquafx.
+
+\subsection{Překlad a spuštění}
+Projekt lze přeložit příkazem ant. Jelikož build file stahuje externí knihovny, je důležité mít při překladu přístup k internetu. Výstupem překladu je jar file \textit{sfc-proj-app.jar} ve složce \textit{target}. Spustit ho tedy můžete příkazem \textit{java -jar target/sfc-proj-app.jar}.
+
+Jelikož původní projekt byl vytvořen jako maven projekt, je ho též možno přeložit příkazem \textit{mvn clean install}, tedy za přepokladu, že je maven na daném stroji nainstalovaný.
+
+
+\section*{Reference}
+\begin{enumerate}[label={[\arabic*]}]
+\item PERINGER P. Slajdy k přednáškám modelování a simulace, 2016. Verze  2016-09-20 [cit. 2016-12-05][Online] \\
+     \href{https://www.fit.vutbr.cz/study/courses/IMS/public/prednasky/IMS.pdf}
+          {https://www.fit.vutbr.cz/study/courses/IMS/public/prednasky/IMS.pdf}
+     \label{prezentace}
+
+\item PERINGER P. SIMulation LIBrary for C++, 2011. [Online] \\
+    \href{https://www.fit.vutbr.cz/~peringer/SIMLIB/}
+         {https://www.fit.vutbr.cz/~peringer/SIMLIB/}
+    \label{demo1}
+
+\item HRUBÝ M. Demonstrační cvičení IMS \#1, [cit. 2016-12-05][Online] \\
+    \href{http://perchta.fit.vutbr.cz:8000/vyuka-ims/uploads/1/ims-demo1.pdf}
+        {http://perchta.fit.vutbr.cz:8000/vyuka-ims/uploads/1/ims-demo1.pdf}
+    \label{demo2}
+
+\item HRUBÝ M. IMS democvičení \#2, [cit. 2016-12-05][Online] \\
+    \href{http://perchta.fit.vutbr.cz:8000/vyuka-ims/uploads/1/diskr2-2011.pdf}
+        {http://perchta.fit.vutbr.cz:8000/vyuka-ims/uploads/1/diskr2-2011.pdf}
+    \label{simlib}
+
+\item Statistické informace Googlu o modelované prodejně \\
+     \href{http://goo.gl/6zOMvi}
+          {http://goo.gl/6zOMvi}
+     \label{google-shop}
+\end{enumerate}
+\end{document}

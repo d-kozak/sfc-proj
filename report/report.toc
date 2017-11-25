@@ -1,0 +1,6 @@
+\select@language {czech}
+\contentsline {section}{\numberline {1}\IeC {\'U}vod}{2}{section.1}
+\contentsline {section}{\numberline {2}Fuzzy logika}{2}{section.2}
+\contentsline {section}{\numberline {3}U\IeC {\v z}ivalsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Implementa\IeC {\v c}n\IeC {\'\i } detaily}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}P\IeC {\v r}eklad a spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i }}{2}{subsection.3.2}
