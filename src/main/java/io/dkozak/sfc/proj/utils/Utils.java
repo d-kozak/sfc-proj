@@ -40,7 +40,7 @@ public class Utils {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(fuzzySet.getName());
 
-        for (int i = 0; i < 100; i++) {
+        for (double i = lowerBound; i < upperBound; i += 0.1) {
             series.getData()
                   .add(new XYChart.Data<>(i, fuzzySet.getMemberFunction()
                                                      .getFunction()
