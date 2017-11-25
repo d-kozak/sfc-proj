@@ -1,5 +1,3 @@
-maven-build.properties
-maven-build.xml
 
 .idea/*
 target/
