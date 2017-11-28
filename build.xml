@@ -2,7 +2,7 @@
 <project name="mandelbrot" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
 
     <property name="java.home" value="/usr/local/share/Java"/>
-    <property name="source.dir" value="src"/>
+    <property name="source.dir" value="src/main/java"/>
     <property name="out.dir" value="build"/>
     <property name="out.dir.classes" value="${out.dir}/classes"/>
     <property name="out.dir.dist" value="${out.dir}/dist"/>
@@ -38,14 +38,17 @@
                 <include name="**/*.css"/>
             </fileset>
         </copy>
+        <copy todir="${out.dir.dist}">
+            <fileset dir="libs" includes="**/*.jar"/>
+        </copy>
     </target>
 
 
     <target name="build" depends="compile">
         <path id="fxant">
             <filelist>
-                <file name="${java.home}\..\lib\ant-javafx.jar"/>
-                <file name="${java.home}\lib\ext\jfxrt.jar"/>
+                <file name="${java.home}/../lib/ant-javafx.jar"/>
+                <file name="${java.home}/lib/ext/jfxrt.jar"/>
             </filelist>
         </path>
         <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
@@ -56,7 +59,7 @@
             <fx:application refid="fuzzy_inference"/>
             <fileset dir="${out.dir.classes}"/>
             <fx:resources>
-                <fileset dir="libs" includes="**/*.jar"/>
+                <fileset dir="${out.dir.dist}" includes="**/*.jar"/>
             </fx:resources>
         </fx:jar>
     </target>
