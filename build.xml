@@ -55,7 +55,9 @@
         <fx:jar destfile="${out.dir.dist}/${app.jar.name}">
             <fx:application refid="fuzzy_inference"/>
             <fileset dir="${out.dir.classes}"/>
-            <fileset dir="libs" includes="**/*.jar"/>
+            <fx:resources>
+                <fileset dir="libs" includes="**/*.jar"/>
+            </fx:resources>
         </fx:jar>
     </target>
 
