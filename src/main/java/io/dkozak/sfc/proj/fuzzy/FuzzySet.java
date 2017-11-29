@@ -66,8 +66,9 @@ public class FuzzySet {
         return name.equals(fuzzySet.name);
     }
 
-    public void setName(String name) {
+    public FuzzySet setName(String name) {
         this.name = name;
+        return this;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package io.dkozak.sfc.proj.components.main;
 
+import io.dkozak.sfc.proj.DemoRunner;
 import io.dkozak.sfc.proj.components.about.AboutView;
 import io.dkozak.sfc.proj.components.chartline.ChartLineView;
+import io.dkozak.sfc.proj.components.result.ResultPresenter;
 import io.dkozak.sfc.proj.components.result.ResultView;
 import io.dkozak.sfc.proj.components.settings.SettingsView;
 import io.dkozak.sfc.proj.services.InferenceResultService;
@@ -17,6 +19,8 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static io.dkozak.sfc.proj.utils.Utils.openModalDialog;
@@ -37,11 +41,17 @@ public class MainPresenter implements Initializable {
     @Inject
     private EventBus eventBus;
 
+    private List<ChartLineView> chartViews = new ArrayList<>();
+
+    private ResultPresenter resultPresenter;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ResultView resultView = new ResultView();
+        resultPresenter = ((ResultPresenter) resultView.getPresenter());
         borderPane.setRight(resultView.getView());
         ChartLineView chartLineView = new ChartLineView();
+        chartViews.add(chartLineView);
         centralVBox.getChildren()
                    .addAll(chartLineView.getView());
     }
@@ -58,6 +68,7 @@ public class MainPresenter implements Initializable {
 
     @FXML
     public void clearAll(ActionEvent event) {
+        chartViews.clear();
         eventBus.broadcast("clear");
         centralVBox.getChildren()
                    .clear();
@@ -79,5 +90,12 @@ public class MainPresenter implements Initializable {
         ChartLineView chartLineView = new ChartLineView();
         centralVBox.getChildren()
                    .add(chartLineView.getView());
+        chartViews.add(chartLineView);
+    }
+
+    @FXML
+    private void onRunDemo(ActionEvent actionEvent) {
+        DemoRunner demoRunner = new DemoRunner(resultPresenter);
+        demoRunner.run(chartViews);
     }
 }

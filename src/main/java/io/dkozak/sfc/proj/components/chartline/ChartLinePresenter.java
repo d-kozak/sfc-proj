@@ -115,8 +115,25 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
                   .removeIf(series -> "Inference for this line".equals(series.getName()));
     }
 
+    public Map<String, FuzzySet> getSets() {
+        return sets;
+    }
+
+    public LineChart<Number, Number> getChartRight() {
+        return chartRight;
+    }
+
+    public LineChart<Number, Number> getChartMiddle() {
+        return chartMiddle;
+    }
+
+    public LineChart<Number, Number> getChartLeft() {
+        return chartLeft;
+    }
+
     private void computeInference() {
         try {
+            System.out.println(this);
             FuzzySet antecedent1 = sets.get("Antecedent 1");
             Objects.requireNonNull(antecedent1);
             FuzzySet fact1 = sets.get("Fact 1");
@@ -155,6 +172,7 @@ public class ChartLinePresenter implements EventBusListener, Initializable {
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
+
 
     }
 }
