@@ -92,4 +92,8 @@ public class ResultPresenter implements Initializable, EventBusListener {
         resultChart.getData()
                    .clear();
     }
+
+    public LineChart<Number, Number> getResultChart() {
+        return resultChart;
+    }
 }

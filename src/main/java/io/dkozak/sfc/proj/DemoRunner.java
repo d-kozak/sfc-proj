@@ -40,8 +40,20 @@ public class DemoRunner {
 
 
     public void run(List<ChartLineView> chartViews) {
+        resultPresenter.getResultChart()
+                       .getData()
+                       .clear();
         for (ChartLineView view : chartViews) {
             ChartLinePresenter presenter = (ChartLinePresenter) view.getPresenter();
+            presenter.getChartLeft()
+                     .getData()
+                     .clear();
+            presenter.getChartMiddle()
+                     .getData()
+                     .clear();
+            presenter.getChartRight()
+                     .getData()
+                     .clear();
             Map<String, FuzzySet> sets = presenter.getSets();
             sets.clear();
 
